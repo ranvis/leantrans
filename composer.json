@@ -1,0 +1,27 @@
+{
+	"name": "ranvis/leantrans",
+	"description": "Lean translation library with Twig support.",
+	"keywords": ["twig","translation","MessageFormatter"],
+	"license": "BSD-2-Clause",
+	"homepage": "https://github.com/ranvis/leantrans/blob/master/README.md",
+	"authors": [
+		{
+			"name": "SATO Kentaro",
+			"email": "kentaro@ranvis.com"
+		}
+	],
+	"require": {
+		"php": ">=8.0.0"
+	},
+	"require-dev": {
+		"twig/twig": ">=3.0.0"
+	},
+	"suggest": {
+		"ext-intl": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Ranvis\\LeanTrans\\": "src/"
+		}
+	}
+}

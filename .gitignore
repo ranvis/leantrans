@@ -1,0 +1,6 @@
+/phpunit.xml
+/vendor/
+/*.cache
+
+# Expect no specific minor version dependency for development
+/composer.lock
