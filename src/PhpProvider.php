@@ -11,7 +11,11 @@ namespace Ranvis\LeanTrans;
 class PhpProvider implements ProviderInterface
 {
     /**
-     * @param array $domains List of valid domains ['domain' => 'file_path', ...]
+     * Instantiate a PHP script data provider.
+     *
+     * @param array $domains
+     * List of valid domains ['domain' => 'file_path', ...]
+     * If file_path is null, file at $dir/domain.php is loaded.
      * @param string|null $dir The default directory when a domain's file_path is null
      * @param string $defaultDomain The file name (without .php extension) for the default domain ''
      */
@@ -37,6 +41,9 @@ class PhpProvider implements ProviderInterface
         $path = $this->domains[$domain] ?? null;
         if ($path === null) {
             $fileName = (($domain === '') ? $this->defaultDomain : $domain) . '.php';
+            if ($this->dir === null) {
+                throw new \UnexpectedValueException('The default directory for domain is not specified.');
+            }
             $path = $this->dir . DIRECTORY_SEPARATOR . $fileName;
         }
         $msgs = require($path);
