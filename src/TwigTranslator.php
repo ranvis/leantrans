@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ranvis\LeanTrans;
 
+use Twig\TwigFilter;
+
 /**
  * LeanTrans Twig extension
  */
@@ -48,7 +50,8 @@ class TwigTranslator extends \Twig\Extension\AbstractExtension implements Transl
     public function getFilters()
     {
         return [
-            new \Twig\TwigFilter('trans', [$this, 'translate']),
+            new TwigFilter('trans', $translateCb = [$this->translator, 'translate']),
+            new TwigFilter('t', $translateCb),
         ];
     }
 
