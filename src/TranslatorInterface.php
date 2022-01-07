@@ -11,4 +11,5 @@ namespace Ranvis\LeanTrans;
 interface TranslatorInterface
 {
     public function translate(string $msg, ?array $params = null): string;
+    public function translateWithDomain(string $msg, string $domain, ?array $params = null): string;
 }

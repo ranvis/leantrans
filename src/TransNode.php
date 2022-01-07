@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ranvis\LeanTrans;
 
 use Twig\Compiler;
-use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
 use Twig\Node\TextNode;
 
@@ -32,17 +31,19 @@ class TransNode extends Node
             $this->subcompileTo('$tmp', $msg, $compiler);
         }
         $compiler->write('$leanTransTranslator ??= ' . $this->getExtension($compiler) . "->getTranslator();\n");
-        $compiler->write('echo $leanTransTranslator->translate(');
+        $compiler->write('echo $leanTransTranslator->');
         if ($isText) {
-            $msg = new ConstantExpression($msg->getAttribute('data'), $msg->getTemplateLine());
-            $compiler->subcompile($msg);
+            $msg = $msg->getAttribute('data');
+            [$domain, $msg] = Translator::splitDomain($msg);
+            $compiler->write('translateWithDomain(')
+                ->string($msg)->raw(', ')->string($domain)
+            ;
         } else {
-            $compiler->raw('$tmp');
+            $compiler->raw('translate($tmp');
         }
         $params = $this->getAttribute('params');
         if ($params !== null) {
-            $compiler->raw(', ');
-            $compiler->subcompile($params);
+            $compiler->raw(', ')->subcompile($params);
         }
         $compiler->raw(");\n");
         if (!$isText) {

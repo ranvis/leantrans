@@ -61,6 +61,14 @@ class TwigTranslator extends \Twig\Extension\AbstractExtension implements Transl
     }
 
     /**
+     * @see Translator::translateWithDomain()
+     */
+    public function translateWithDomain(string $msg, string $domain, ?array $params = null): string
+    {
+        return $this->translator->translateWithDomain($msg, $domain, $params);
+    }
+
+    /**
      * Get the actual translator instance.
      *
      * It is guaranteed that $this->getTranslator()->translate() does exactly the same as $this->translate().

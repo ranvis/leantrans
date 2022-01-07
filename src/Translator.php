@@ -39,6 +39,21 @@ class Translator implements TranslatorInterface
     public function translate(string $msg, ?array $params = null): string
     {
         [$domain, $msg] = static::splitDomain($msg);
+        return $this->translateWithDomain($msg, $domain, $params);
+    }
+
+    /**
+     * Translate message using string provider.
+     *
+     * If $params is specified, the message is formatted using string formatter.
+     *
+     * @param string $domain The domain of the message.
+     * @param string $msg The string to be translated.
+     * @param array|null $params Parameters to be inserted into the message.
+     * @return string A translated string.
+     */
+    public function translateWithDomain(string $msg, string $domain, ?array $params = null): string
+    {
         $msg = $this->provider->query($msg, $domain);
         if ($params === null) {
             return $msg;
