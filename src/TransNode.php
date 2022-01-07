@@ -31,7 +31,8 @@ class TransNode extends Node
         if (!$isText) {
             $this->subcompileTo('$tmp', $msg, $compiler);
         }
-        $compiler->write('echo ' . $this->getExtension($compiler) . '->translate(');
+        $compiler->write('$leanTransTranslator ??= ' . $this->getExtension($compiler) . "->getTranslator();\n");
+        $compiler->write('echo $leanTransTranslator->translate(');
         if ($isText) {
             $msg = new ConstantExpression($msg->getAttribute('data'), $msg->getTemplateLine());
             $compiler->subcompile($msg);

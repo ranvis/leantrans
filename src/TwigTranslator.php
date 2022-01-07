@@ -59,4 +59,16 @@ class TwigTranslator extends \Twig\Extension\AbstractExtension implements Transl
     {
         return $this->translator->translate($msg, $params);
     }
+
+    /**
+     * Get the actual translator instance.
+     *
+     * It is guaranteed that $this->getTranslator()->translate() does exactly the same as $this->translate().
+     *
+     * @return TranslatorInterface Translator instance.
+     */
+    public function getTranslator(): TranslatorInterface
+    {
+        return $this->translator;
+    }
 }
