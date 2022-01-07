@@ -12,12 +12,12 @@ class VarFormatter implements FormatterInterface
 {
     public function format(string $str, array $params): string
     {
-        // regex has no /u flag as per the extension's spec.
+        // regex has no /u flag as per the library's spec.
         return \preg_replace_callback('/%([\w-]*?)%/', function (array $m) use ($params): string {
             if ($m[1] === '') {
                 return '%';  // %% => %
             }
-            return $params[$m[1]] ?? '';
+            return (string)($params[$m[1]] ?? '');
         }, $str) ?? '';
     }
 }
