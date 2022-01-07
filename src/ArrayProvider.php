@@ -11,17 +11,17 @@ namespace Ranvis\LeanTrans;
 class ArrayProvider implements ProviderInterface
 {
     public function __construct(
-        private array $maps,
+        private array $domains,
     ) {
     }
 
-    public function addMap(string $domain, array $map): void
+    public function addDomain(string $domain, array $msgs): void
     {
-        $this->maps[$domain] = $map;
+        $this->domains[$domain] = $msgs;
     }
 
     public function query(string $msg, string $domain): string
     {
-        return $this->maps[$domain][$msg] ?? $msg;
+        return $this->domains[$domain][$msg] ?? $msg;
     }
 }

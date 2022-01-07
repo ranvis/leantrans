@@ -11,38 +11,38 @@ namespace Ranvis\LeanTrans;
 class PhpProvider implements ProviderInterface
 {
     public function __construct(
-        private array $maps,
+        private array $domains,
     ) {
     }
 
-    public static function compile(array $map): string
+    public static function compile(array $msgs): string
     {
-        return '<?php return ' . var_export($map, true) . ';';
+        return '<?php return ' . var_export($msgs, true) . ';';
     }
 
-    public function addMap(string $domain, string $path): void
+    public function addDomain(string $domain, string $path): void
     {
-        $this->maps[$domain] = $path;
+        $this->domains[$domain] = $path;
     }
 
-    protected function loadMap(string $path): array
+    protected function loadDomain(string $path): array
     {
-        $map = require($path);
-        if (!\is_array($map)) {
-            throw new \UnexpectedValueException('PHP map should return an array of translations: ' . $path);
+        $msgs = require($path);
+        if (!\is_array($msgs)) {
+            throw new \UnexpectedValueException('PHP script should return an array of translations: ' . $path);
         }
-        return $map;
+        return $msgs;
     }
 
     public function query(string $msg, string $domain): string
     {
-        $map = $this->maps[$domain] ?? null;
-        if (!isset($map)) {
+        $msgs = $this->domains[$domain] ?? null;
+        if (!isset($msgs)) {
             return $msg;
         }
-        if (!\is_array($map)) {
-            $this->maps[$domain] = $map = $this->loadMap($map);
+        if (!\is_array($msgs)) {
+            $this->domains[$domain] = $msgs = $this->loadDomain($msgs);
         }
-        return $map[$msg] ?? $msg;
+        return $msgs[$msg] ?? $msg;
     }
 }

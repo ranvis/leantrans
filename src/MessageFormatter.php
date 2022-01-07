@@ -10,7 +10,7 @@ namespace Ranvis\LeanTrans;
 
 class MessageFormatter implements FormatterInterface
 {
-    private array $cacheMap = [];
+    private array $msgFmtCache = [];
 
     public function __construct(
         private string $locale,
@@ -20,7 +20,7 @@ class MessageFormatter implements FormatterInterface
 
     public function format(string $str, array $params): string
     {
-        $msgFmt = $this->cacheMap[$str] ?? null;
+        $msgFmt = $this->msgFmtCache[$str] ?? null;
         if ($msgFmt === null) {
             try {
                 $msgFmt = new \MessageFormatter($this->locale, $str);
@@ -29,7 +29,7 @@ class MessageFormatter implements FormatterInterface
                 return '';
             }
             if ($this->cache) {
-                $this->cacheMap[$str] = $msgFmt;
+                $this->msgFmtCache[$str] = $msgFmt;
             }
         }
         $formatted = $msgFmt->format($params);
