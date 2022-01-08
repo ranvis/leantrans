@@ -34,7 +34,7 @@ class MessageFormatter implements FormatterInterface
         }
         $formatted = $msgFmt->format($params);
         if ($formatted === false) {
-            $this->warn('Failed to format using MessageFormatter', ['str' => $str, 'params' => $params]);
+            $this->warn('Failed to format using MessageFormatter', ['error' => $msgFmt->getErrorCode(), 'str' => $str, 'params' => $params]);
             $formatted = '';
         }
         return $formatted;
