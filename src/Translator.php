@@ -61,7 +61,7 @@ class Translator implements TranslatorInterface
         return $this->formatter?->format($msg, $params) ?? $msg;
     }
 
-    public static function splitDomain(string $str): array
+    final public static function splitDomain(string $str): array
     {
         $domain = '';
         if ($str !== '' && $str[0] === '.') {
