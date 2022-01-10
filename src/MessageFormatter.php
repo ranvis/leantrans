@@ -20,17 +20,9 @@ class MessageFormatter implements FormatterInterface
 
     public function format(string $str, array $params): string
     {
-        $msgFmt = $this->msgFmtCache[$str] ?? null;
+        $msgFmt = $this->msgFmtCache[$str] ?? $this->prepare($str);
         if ($msgFmt === null) {
-            try {
-                $msgFmt = new \MessageFormatter($this->locale, $str);
-            } catch (\IntlException $e) {
-                $this->warn('Failed to instantiate MessageFormatter', ['exception' => $e->getMessage(), 'str' => $str, 'params' => $params]);
-                return '';
-            }
-            if ($this->cache) {
-                $this->msgFmtCache[$str] = $msgFmt;
-            }
+            return '';
         }
         $formatted = $msgFmt->format($params);
         if ($formatted === false) {
@@ -38,6 +30,20 @@ class MessageFormatter implements FormatterInterface
             $formatted = '';
         }
         return $formatted;
+    }
+
+    protected function prepare(string $str): ?\MessageFormatter
+    {
+        try {
+            $msgFmt = new \MessageFormatter($this->locale, $str);
+        } catch (\IntlException $e) {
+            $this->warn('Failed to instantiate MessageFormatter', ['exception' => $e->getMessage(), 'str' => $str]);
+            return null;
+        }
+        if ($this->cache) {
+            $this->msgFmtCache[$str] = $msgFmt;
+        }
+        return $msgFmt;
     }
 
     protected function warn(string $errorMsg, array $data): void
