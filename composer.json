@@ -1,7 +1,7 @@
 {
 	"name": "ranvis/leantrans",
-	"description": "Lean translation library with Twig support.",
-	"keywords": ["twig","translation","MessageFormatter"],
+	"description": "Lean message translation library with Twig support.",
+	"keywords": ["translation","MessageFormatter","Twig"],
 	"license": "BSD-2-Clause",
 	"homepage": "https://github.com/ranvis/leantrans/blob/master/README.md",
 	"authors": [
@@ -22,6 +22,11 @@
 	"autoload": {
 		"psr-4": {
 			"Ranvis\\LeanTrans\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Ranvis\\LeanTrans\\": "tests/"
 		}
 	}
 }
